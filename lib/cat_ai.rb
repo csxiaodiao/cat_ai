@@ -59,7 +59,8 @@ module CatAi
       end
 
       def get_single_sender(params)
-        params = {params, content_type: :json, accept: :json}
+        header = {content_type: :json, accept: :json}
+        params = params.merge(header)
         response = RestClient.get(configuration.post_url, params)
       end
 

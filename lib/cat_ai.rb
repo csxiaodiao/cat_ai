@@ -49,18 +49,18 @@ module CatAi
       # kw 1 list 2 add 3 delete
 
       def keywords(kw, src, drc)
-        params = {params: create_params(kw, src, drc)}.to_json
+        params = {params: create_params(kw, src, drc)}
         get_single_sender(params)
       end
 
       def select(count)
-        params = {parmas: {count: count}}.to_json
+        params = {parmas: {count: count}}
         get_single_sender(params)
       end
 
       def get_single_sender(params)
         header = {content_type: :json, accept: :json}
-        params = params.merge(header)
+        params = params.merge(header).to_json
         response = RestClient.get(configuration.post_url, params)
       end
 

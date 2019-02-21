@@ -1,5 +1,70 @@
 require "cat_ai/version"
+require 'rest-client'
+require 'json'
 
 module CatAi
-  # Your code goes here...
+  module APi
+    class Configuration
+      attr_accessor :app_id, :app_key, :post_url
+      def initialize
+        @app_id = ''
+        @app_key = ''
+        @post_url = ''
+      end
+    end
+
+    class << self
+      attr_writer :configuration
+
+      def configuration
+        @configuration ||= Configuration.new
+      end
+
+      def configure
+        yield(configuration)
+      end
+
+      def create_params(mode, content, kw, src, dst)
+        body = {
+          wenzhang: content, 
+          v: mode, 
+          kw: kw, 
+          src: src, 
+          dst: dst, 
+          key: configuration.app_key
+        }.compact
+
+        body
+      end
+
+      # model 1 smooth, v2 height, v3 highest
+
+      def reedit(mode, content)
+        body =  create_params(mode, content).to_json
+        single_sender(body)
+      end
+      
+      # src original keywords
+      # dst replace keywords
+      # kw 1 list 2 add 3 delete
+
+      def keywords(mode, kw, src, drc)
+        body = {params: create_params(mode, kw, src, drc)}.to_json
+        single_sender(body)
+      end
+
+      def select(count)
+        body = {parmas: {count: count}}.to_json
+        single_sender(body)
+      end
+
+      def single_sender(body)
+        header = {content_type: :json, accept: :json}
+        response = RestClient.get(configuration.post_url, body, header)
+      end
+
+
+    end
+
+  end
 end

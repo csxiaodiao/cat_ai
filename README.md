@@ -22,7 +22,19 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+CatAi::Api.configure do |config|
+    config.app_key = 'xxx'
+    config.app_id = 'xxx'
+    config.post_url = 'xxx'
+end
+```
+
+```ruby
+CatAi::Api.keywords({kw: 3, src: '伪原创'})
+CatAi::Api.select(count=3)
+CatAi::Api.reedit(mode=3, content)
+```
 
 ## Development
 

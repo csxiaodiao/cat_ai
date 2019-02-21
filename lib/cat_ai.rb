@@ -48,8 +48,8 @@ module CatAi
       # dst replace keywords
       # kw 1 list 2 add 3 delete
 
-      def keywords(mode, kw, src, drc)
-        body = {params: create_params(mode, kw, src, drc)}.to_json
+      def keywords(kw, src, drc)
+        body = {params: create_params(kw, src, drc)}.to_json
         single_sender(body)
       end
 

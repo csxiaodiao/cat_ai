@@ -3,7 +3,7 @@ require 'rest-client'
 require 'json'
 
 module CatAi
-  module APi
+  module Api
     class Configuration
       attr_accessor :app_id, :app_key, :post_url
       def initialize
@@ -49,18 +49,24 @@ module CatAi
       # kw 1 list 2 add 3 delete
 
       def keywords(kw, src, drc)
-        body = {params: create_params(kw, src, drc)}.to_json
-        single_sender(body)
+        params = {params: create_params(kw, src, drc)}.to_json
+        get_single_sender(params)
       end
 
       def select(count)
-        body = {parmas: {count: count}}.to_json
-        single_sender(body)
+        params = {parmas: {count: count}}.to_json
+        get_single_sender(params)
       end
+
+      def get_single_sender(params)
+        params = {params, content_type: :json, accept: :json}
+        response = RestClient.get(configuration.post_url, params)
+      end
+
 
       def single_sender(body)
         header = {content_type: :json, accept: :json}
-        response = RestClient.get(configuration.post_url, body, header)
+        response = RestClient.post(configuration.post_url, body, header)
       end
 
 

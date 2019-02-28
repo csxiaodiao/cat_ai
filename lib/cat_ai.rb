@@ -55,7 +55,7 @@ module CatAi
       # kw 1 list 2 add 3 delete
 
       def keywords(**opt)
-        params = {params: create_params(kw: opt[:kw], src: opt[:src], drc: opt[:drc])}
+        params = {params: create_params(kw: opt[:kw], src: opt[:src], dst: opt[:dst])}
 
         get_single_sender(params)
       end
